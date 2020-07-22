@@ -37,5 +37,30 @@ class Dog
     self
   end
 
+  def self.create(hash_of_attributes)
+      dog = self.new(hash_of_attributes)
+      dog.save
+
+      dog
+  end
+
+  def self.find_by_id(id)
+    sql = <<-SQL
+      SELECT * FROM dogs WHERE id = ?
+    SQL
+
+    DB[:conn].execute(sql, id).map do |row|
+      self.new_from_db(row)
+    end.first
+  end
+
+  def self.new_from_db(row)
+    attributes_hash = {
+      :id => row[0],
+      :name => row[1],
+      :breed => row[2]
+    }
+    self.new(attributes_hash)
+  end
   
 end
