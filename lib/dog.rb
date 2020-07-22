@@ -62,5 +62,5 @@ class Dog
     }
     self.new(attributes_hash)
   end
-  
+
 end
